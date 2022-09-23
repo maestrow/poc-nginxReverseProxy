@@ -1,0 +1,33 @@
+version: "3.3"
+services:
+
+  main:
+    build: web-app
+    image: web-app
+    networks:
+      - reserve-proxy
+    environment:
+      - APP_NAME=main
+
+  sub:
+    build: web-app
+    image: web-app
+    networks:
+      - reserve-proxy
+    environment:
+      - APP_NAME=sub
+
+  web:
+    image: nginx
+    networks:
+      - reserve-proxy
+    volumes:
+      - ./nginx-templates:/etc/nginx/templates
+    ports:
+      - "8080:80"
+    environment:
+      - NGINX_HOST=127.0.0.1
+      - NGINX_PORT=80
+
+networks:
+  reserve-proxy:

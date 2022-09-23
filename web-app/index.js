@@ -37,10 +37,16 @@ async function validateCookies(req, res, next) {
   }
 }
 
+async function addHeader(req, res, next) {
+  res.set('X-App', process.env.APP_NAME);
+  next();
+}
+
 app.use(cors());
 app.use(cookieParser("OoijwfeJ9"));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+app.use(addHeader);
 app.use(logErrors);
 app.use(clientErrorHandler);
 app.use(errorHandler);
